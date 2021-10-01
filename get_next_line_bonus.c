@@ -3,12 +3,12 @@
 static char	*make_backup(int fd, char *backup, char *buffer)
 {
 	int		readbuffer;
-	int		control;
+	int		limit_line;
 	char	*temporary;
 
 	readbuffer = 1;
-	control = 0;
-	while (control == 0 && readbuffer != 0)
+	limit_line = 0;
+	while (limit_line == 0 && readbuffer != 0)
 	{
 		readbuffer = read(fd, buffer, BUFFER_SIZE);
 		if (readbuffer == -1)
@@ -24,7 +24,7 @@ static char	*make_backup(int fd, char *backup, char *buffer)
 		free(temporary);
 		temporary = NULL;
 		if (ft_strchr(backup, '\n'))
-			control = 1;
+			limit_line = 1;
 	}
 	free(buffer);
 	return (backup);

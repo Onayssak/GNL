@@ -4,7 +4,7 @@ static char	*make_backup(int fd, char *backup, char *buffer)
 {
 	int		readbuffer;
 	int		control;
-	char	*temp;
+	char	*temporary;
 
 	readbuffer = 1;
 	control = 0;
@@ -19,10 +19,10 @@ static char	*make_backup(int fd, char *backup, char *buffer)
 		buffer[readbuffer] = '\0';
 		if (!backup)
 			backup = ft_strdup("");
-		temp = backup;
+		temporary = backup;
 		backup = ft_strjoin(backup, buffer);
-		free(temp);
-		temp = NULL;
+		free(temporary);
+		temporary = NULL;
 		if (ft_strchr(backup, '\n'))
 			control = 1;
 	}
@@ -78,15 +78,15 @@ char	*get_next_line(int fd)
 	char		*buffer;
 
 	line = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	backup = make_backup(fd, backup, buffer);
-	if (!backup)
+	backup[fd] = make_backup(fd, backup[fd], buffer);
+	if (!backup[fd])
 		return (NULL);
-	line = make_line(backup);
-	backup = make_new_backup(backup);
+	line = make_line(backup[fd]);
+	backup[fd] = make_new_backup(backup[fd]);
 	return (line);
 }

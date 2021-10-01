@@ -1,6 +1,10 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# ifndef OPEN_MAX
+#  define OPEN_MAX 256
+# endif
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stddef.h>

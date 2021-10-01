@@ -74,11 +74,11 @@ static char	*make_new_backup(char *backup)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*backup;
+	static char	*backup[FILE_MAX];
 	char		*buffer;
 
 	line = NULL;
-	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > FILE_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)

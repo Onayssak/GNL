@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cajose-s <cajose-s@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/10/01 21:29:22 by cajose-s          #+#    #+#             */
+/*   Updated: 2021/10/01 22:05:48 by cajose-s         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 static char	*make_backup(int fd, char *backup, char *buffer);
@@ -46,7 +58,6 @@ static char	*make_backup(int fd, char *backup, char *buffer)
 		temporary = backup;
 		backup = ft_strjoin(backup, buffer);
 		free(temporary);
-		temporary = NULL;
 		if (ft_strchr(backup, '\n'))
 			limit_line = 1;
 	}

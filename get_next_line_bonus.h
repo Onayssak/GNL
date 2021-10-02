@@ -1,13 +1,13 @@
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-
-# include <unistd.h>
-# include <stdlib.h>
-# include <stddef.h>
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # ifndef FILE_MAX
 #  define FILE_MAX 256
 # endif
+
+# include <unistd.h>
+# include <stdlib.h>
+# include <stddef.h>
 
 char	*get_next_line(int fd);
 char	*ft_strdup(const char *s);

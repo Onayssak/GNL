@@ -1,5 +1,29 @@
 #include "get_next_line_bonus.h"
 
+static char	*make_backup(int fd, char *backup, char *buffer);
+static char	*make_line(char *backup);
+static char	*make_new_backup(char *backup);
+
+char	*get_next_line(int fd)
+{
+	char		*line;
+	static char	*backup[FILE_MAX];
+	char		*buffer;
+
+	line = NULL;
+	if (fd < 0 || fd > FILE_MAX || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+		return (NULL);
+	backup[fd] = make_backup(fd, backup[fd], buffer);
+	if (!backup[fd])
+		return (NULL);
+	line = make_line(backup[fd]);
+	backup[fd] = make_new_backup(backup[fd]);
+	return (line);
+}
+
 static char	*make_backup(int fd, char *backup, char *buffer)
 {
 	int		readbuffer;
@@ -69,24 +93,4 @@ static char	*make_new_backup(char *backup)
 	ft_strlcpy(new_backup, backup + i + 1, ft_strlen(backup) - i + 1);
 	free(backup);
 	return (new_backup);
-}
-
-char	*get_next_line(int fd)
-{
-	char		*line;
-	static char	*backup[FILE_MAX];
-	char		*buffer;
-
-	line = NULL;
-	if (fd < 0 || fd > FILE_MAX || BUFFER_SIZE <= 0)
-		return (NULL);
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
-		return (NULL);
-	backup[fd] = make_backup(fd, backup[fd], buffer);
-	if (!backup[fd])
-		return (NULL);
-	line = make_line(backup[fd]);
-	backup[fd] = make_new_backup(backup[fd]);
-	return (line);
 }

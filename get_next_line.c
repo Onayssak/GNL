@@ -1,5 +1,29 @@
 #include "get_next_line.h"
 
+static char	*make_backup(int fd, char *backup, char *buffer);
+static char	*make_line(char *backup);
+static char	*make_new_backup(char *backup);
+
+char	*get_next_line(int fd)
+{
+	char		*line;
+	static char	*backup;
+	char		*buffer;
+
+	line = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+		return (NULL);
+	backup = make_backup(fd, backup, buffer);
+	if (!backup)
+		return (NULL);
+	line = make_line(backup);
+	backup = make_new_backup(backup);
+	return (line);
+}
+
 static char	*make_backup(int fd, char *backup, char *buffer)
 {
 	int		readbuffer;
@@ -69,24 +93,4 @@ static char	*make_new_backup(char *backup)
 	ft_strlcpy(new_backup, backup + i + 1, ft_strlen(backup) - i + 1);
 	free(backup);
 	return (new_backup);
-}
-
-char	*get_next_line(int fd)
-{
-	char		*line;
-	static char	*backup;
-	char		*buffer;
-
-	line = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
-		return (NULL);
-	backup = make_backup(fd, backup, buffer);
-	if (!backup)
-		return (NULL);
-	line = make_line(backup);
-	backup = make_new_backup(backup);
-	return (line);
 }
